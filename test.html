@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no" />
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css" type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        #forgeViewer {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background-color: #F0F8FF;
+        }
+    </style>
+</head>
+<body>
+    <button id="load_button">load</button>
+    <button id="unload_button">unload</button>
+
+    <!-- The Viewer will be instantiated here -->
+    <div id="forgeViewer"></div>
+
+    <!-- The Viewer JS -->
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+    <script src="load_unload_extension.js"></script>
+
+    <!-- Developer JS -->
+    <script src="script.js"></script>
+</body>
+</html>
