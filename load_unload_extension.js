@@ -2,6 +2,7 @@ var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2hoL3JhY19hZH
 var documentId2 = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2dnL3JzdF9iYXNpY19zYW1wbGVfcHJvamVjdC5ydnQ=';
 var viewer;
 var curdoc;
+var document_loaded;
 function Load_unload_extension(viewer, options){
     Autodesk.Viewing.Extension.call(this, viewer, options);
 }
@@ -10,10 +11,16 @@ Load_unload_extension.prototype = Object.create(Autodesk.Viewing.Extension.proto
 Load_unload_extension.prototype.constructor = Load_unload_extension;
 
 Load_unload_extension.prototype.load = function (){
+    document_loaded = false;
+
     var loadbtn = document.getElementById('load_button');
     var unloadbtn = document.getElementById('unload_button');
     loadbtn.addEventListener('click', Load_unload_extension.prototype.load_document);
     unloadbtn.addEventListener('click', Load_unload_extension.prototype.unload_document);
+
+    var loadbtn2 = document.getElementById('load_button2');
+    loadbtn2.addEventListener('click', Load_unload_extension.prototype.load_document2);
+
     console.log("extension loaded");
     viewerr = this.viewer;
     return true;
@@ -25,14 +32,35 @@ Load_unload_extension.prototype.unload = function (){
 }
 
 Load_unload_extension.prototype.load_document = function () {
+    if(document_loaded){
+        console.log("a document was already loaded");
+        return
+    }
     Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+    document_loaded = true;
     console.log("click works for load");
 }
 
 Load_unload_extension.prototype.unload_document = function () {
     console.log("click works for unload");
+    if(!document_loaded){
+        console.log("no document loaded");
+        return;
+    }
+    document_loaded = false;
     viewer.unloadDocumentNode(curdoc.getRoot().getDefaultGeometry());
 
+}
+
+
+Load_unload_extension.prototype.load_document2 = function () {
+    if(document_loaded){
+        console.log("a document was already loaded2");
+        return;
+    }
+    Autodesk.Viewing.Document.load(documentId2, onDocumentLoadSuccess, onDocumentLoadFailure);
+    document_loaded = true
+    console.log("click works for load");
 }
 
 /**
