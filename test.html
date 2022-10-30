@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+    <!--html elements used by the extensions-->
     <button id="load_button">load</button>
     <button id="unload_button">unload</button>
     <button id="load_button2">load2</button>
@@ -29,15 +30,16 @@
     <!-- The Viewer will be instantiated here -->
     <div id="forgeViewer"></div>
 
-    <!-- The Viewer JS -->
+    <!-- script for the viewer -->
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+    <!--source for the extensions-->
     <script src="load_unload_extension.js"></script>
     <script src="event_react_extension.js"></script>
     <script src="toolbar_extension.js"></script>
    
 
 
-    <!-- Developer JS -->
+    <!-- script to instantiate and modify the viewer -->
     <script src="script.js"></script>
 </body>
 </html>

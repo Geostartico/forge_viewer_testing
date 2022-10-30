@@ -1,3 +1,4 @@
+//extension that reacts to change of selection and to the change of the explode parameter of the model viewer
 function Event_listener(viewer, options){
     Autodesk.Viewing.Extension.call(this, viewer, options)
 }
@@ -25,7 +26,7 @@ Event_listener.prototype.unload = function (){
 Event_listener.prototype.onSelectionEvent = function(event){
     var txt = document.getElementById('listener');
     var cursel = this.viewer.getSelection();
-    txt.innerText = 'cose: ' + cursel.length;
+    txt.innerText = 'selezioni: ' + cursel.length;
 }
 
 Event_listener.prototype.onExplodeEvent = function(event){

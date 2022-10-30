@@ -1,20 +1,24 @@
+//the models are identified by a base64 urn
 var documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2hoL3JhY19hZHZhbmNlZF9zYW1wbGVfcHJvamVjdC5ydnQ=';
 var documentId2 = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2dnL3JzdF9iYXNpY19zYW1wbGVfcHJvamVjdC5ydnQ=';
 var viewer;
 var curdoc;
 var document_loaded;
+//load extension into the viewer
 function Load_unload_extension(viewer, options){
     Autodesk.Viewing.Extension.call(this, viewer, options);
 }
+//initialize the class
 Load_unload_extension.prototype = Object.create(Autodesk.Viewing.Extension.prototype);
 
 Load_unload_extension.prototype.constructor = Load_unload_extension;
-
+//operations to do when the extension is loaded
 Load_unload_extension.prototype.load = function (){
     document_loaded = false;
 
     var loadbtn = document.getElementById('load_button');
     var unloadbtn = document.getElementById('unload_button');
+    //adds the functions to the events
     loadbtn.addEventListener('click', Load_unload_extension.prototype.load_document);
     unloadbtn.addEventListener('click', Load_unload_extension.prototype.unload_document);
 
@@ -25,7 +29,7 @@ Load_unload_extension.prototype.load = function (){
     viewerr = this.viewer;
     return true;
 }
-
+//operations to do ehrn the extension is unloaded
 Load_unload_extension.prototype.unload = function (){
     console.log("extension unloaded");
     return true;

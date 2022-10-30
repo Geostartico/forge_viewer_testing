@@ -1,3 +1,4 @@
+//extension that adds functionalities to the viewer toolbar
 function Toolbar_extension(viewer, options){
     Autodesk.Viewing.Extension.call(this, viewer, options);
 }
