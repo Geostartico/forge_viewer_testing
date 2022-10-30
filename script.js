@@ -1,14 +1,19 @@
 Autodesk.Viewing.theExtensionManager.registerExtension('load_unload_extension', Load_unload_extension);
+Autodesk.Viewing.theExtensionManager.registerExtension('event_react_extension', Event_listener);
+Autodesk.Viewing.theExtensionManager.registerExtension('toolbar_extension', Toolbar_extension);
+
 var viewer;
 var curdoc;
 var configGui = {
-    extensions: ["load_unload_extension"]
+    extensions: ["load_unload_extension",
+                 "event_react_extension",
+                 "toolbar_extension"]
 }
 var options = {
     env: 'AutodeskProduction',
     api: 'derivativeV2',    // for models uploaded to EMEA change this option to 'derivativeV2_EU'
     getAccessToken: function(onTokenReady){
-        var token='eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJidWNrZXQ6cmVhZCIsImJ1Y2tldDp1cGRhdGUiLCJidWNrZXQ6Y3JlYXRlIiwiYnVja2V0OmRlbGV0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOmNyZWF0ZSIsImRhdGE6cmVhZCJdLCJjbGllbnRfaWQiOiJ1UnczOWNBTUlGMEh0U0dNYnVURUFvRFJSbnRFNlJCaCIsImF1ZCI6Imh0dHBzOi8vYXV0b2Rlc2suY29tL2F1ZC9hand0ZXhwNjAiLCJqdGkiOiJiZWxISnNYaUN2RmNzZFMxaXJ2VmoxdDZSRHJSYjJ0Q1JEUTZabW5sS0hqOHM0T1c3cjZKM2laU2tjR29GZFROIiwiZXhwIjoxNjY2MTc3NzM4fQ.ZCtx7O4mPdMHrA4bP2K0LL9lhGF3ATQZFcqaPGsomRr8PTlQ2cRlMX2rdSgJ2T7ssysNwOOHZJQpX_z6vahhip3asmvui1_CERhIPK62e0SruZsJ3fKAEgihnruVjvZB4x5gi95rCDcRfvgVmIEmcBSW0h723uIbotd23HZSZTcNVXjh8sTR-pSMjjC4lV-qFPriDCuvsGpRR4wnf-lxuCOoalQHMH6LKac-0TM7sVQwId-3dsNfOzcYVquVHZFCCQTEXBCqhV3gMkplq_UymrWw_zMRh3M9v_23Tf6-eQfShD3GnFN7ydO6BzCXvDmOz1Mfz4fEaDt7CnmeIr5Oiw';
+        var token='eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJidWNrZXQ6cmVhZCIsImJ1Y2tldDp1cGRhdGUiLCJidWNrZXQ6Y3JlYXRlIiwiYnVja2V0OmRlbGV0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOmNyZWF0ZSIsImRhdGE6cmVhZCJdLCJjbGllbnRfaWQiOiJ1UnczOWNBTUlGMEh0U0dNYnVURUFvRFJSbnRFNlJCaCIsImF1ZCI6Imh0dHBzOi8vYXV0b2Rlc2suY29tL2F1ZC9hand0ZXhwNjAiLCJqdGkiOiJjUm5ZYkZHYlBRdlRVU3d1MEJ6RWFEMjBZS1pLWTBGS2h1MGhIZ0hiREM4Ukh4d2l2NnRQV0M3VXE5UVhEd2M1IiwiZXhwIjoxNjY2NzAyNTExfQ.f7wN44pLeRaq3H665RzW0wDGX4eXh-nhm85kIzcqQMDIPVUJRDDZqZZn8gw7-FqWdsGx7s_I7t2GcsU8wc8QRLQJrPwlgdY8-MTliRRJdE6wIekDcIEo4ChOvBTIkqS08_EyBOKlHnxRec_txOhw6MALWZstX0fVJmsNqSQiFq7Q9sOUU0CBmzdfM8IzRV7Rp1ScKyJ6kaoCwGSZZ8YBzbU3I3dBgzExf-78WdLXcRI3tqTw55IO5eZh3igwm5Jf81m9Vpdojr0KIBDvCZsoPX7opahvuefBaH8puzFPioBPK81bmLyC2yTjl-ctmfGlYIMhI7UIjMKvH65Cy0CHmw';
         var timeInSeconds = 3599;
         onTokenReady(token, timeInSeconds);
 }
