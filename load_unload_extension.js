@@ -85,7 +85,6 @@ function onDocumentLoadSuccess(doc) {
     viewer.loadDocumentNode(doc, geometries);
     console.log("document loaded");
     //viewer.waitForLoadDone();
-    //console.log("FATTO");
     //setTimeout(() => {console.log("waited")}, 10000);
     //viewer.unloadDocumentNode(geometries);
 
