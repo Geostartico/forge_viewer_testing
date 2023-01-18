@@ -24,8 +24,32 @@
     <button id="load_button">load</button>
     <button id="unload_button">unload</button>
     <button id="load_button2">load2</button>
+    <button id="restore">restore state</button>
+    <button id="save">save state</button>
+    <a id="download_json" ><i class="icon-download"></i>download json!</a>
+    <input type="file" id="file-selector" accept=".json">
+    <select name"connectors" id="connector_list">
+        <option value="">select one</option>
+    </select>
     <span id="listener"></span>
     <span id="listener2"></span>
+    <br>
+    <label for="name">xinterval</label>
+    <input type="text" name="x" id="xStart" required>
+    <input type="text" name="x" id="xStop" required>
+    <br>
+    <label for="name">yinterval</label>
+    <input type="text" name="y" id="yStart" required>
+    <input type="text" name="y" id="yStop" required>
+    <br>
+    <label for="name">zinterval</label>
+    <input type="text" name="z" id="zStart" required>
+    <input type="text" name="z" id="zStop" required>
+    <br>
+    <label for="name">spacing</label>
+    <input type="text" name="spacing" id="spacingInput" required>
+    <br>
+    <button id="submit">save</button>
 
     <!-- The Viewer will be instantiated here -->
     <div id="forgeViewer"></div>
