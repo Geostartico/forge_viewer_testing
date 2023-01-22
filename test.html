@@ -21,7 +21,7 @@
 </head>
 <body>
     <!--html elements used by the extensions-->
-    <button id="load_button">load</button>
+    <button id="load_button">load main model</button>
     <button id="unload_button">unload</button>
     <button id="load_button2">load2</button>
     <button id="restore">restore state</button>
@@ -31,6 +31,13 @@
     <select name"connectors" id="connector_list">
         <option value="">select one</option>
     </select>
+    <select name"models" id="models_list">
+        <option value="">select one</option>
+        <option value="urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2hoL0Y4M1RCTTAwLmR3Zng=">F83TBM00.dwfx</option>
+        <option value="urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2hoL0Y4M0RLMTA3LmR3Zng=">F83DK107.dwfx</option>
+        <option value="urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0X2hoL0Y1M1BTTjExLmR3Zng=">F53PSN11.dwfx</option>
+    </select>
+    <button id="load_model">load secondary model</button>
     <span id="listener"></span>
     <span id="listener2"></span>
     <br>
@@ -50,6 +57,13 @@
     <input type="text" name="spacing" id="spacingInput" required>
     <br>
     <button id="submit">save</button>
+    <br>
+    <button id="up" style="margin-left: 25px;">up</button>
+    <br>
+    <button id="left">left</button>
+    <button id="right">right</button>
+    <br>
+    <button id="down" style="margin-left: 15px;">down</button>
 
     <!-- The Viewer will be instantiated here -->
     <div id="forgeViewer"></div>

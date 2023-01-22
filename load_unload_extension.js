@@ -23,12 +23,13 @@ Load_unload_extension.prototype.load = function (){
     var loadbtn = document.getElementById('load_button');
     var unloadbtn = document.getElementById('unload_button');
     //adds the functions to the events
-    loadbtn.addEventListener('click', Load_unload_extension.prototype.load_document.bind(this));
+    loadbtn.addEventListener('click', Load_unload_extension.prototype.load_document_ev.bind(this));
     unloadbtn.addEventListener('click', Load_unload_extension.prototype.unload_document);
 
     var loadbtn2 = document.getElementById('load_button2');
     loadbtn2.addEventListener('click', Load_unload_extension.prototype.load_document2.bind(this));
-
+    var selectButton = document.getElementById('load_model');
+    selectButton.addEventListener('click', (this.load_click_event).bind(this))
     console.log("extension loaded");
     viewerr = this.viewer;
     return true;
@@ -39,11 +40,17 @@ Load_unload_extension.prototype.unload = function (){
     return true;
 }
 
-Load_unload_extension.prototype.load_document = function () {
-    if(document_loaded){
-        console.log("a document was already loaded");
-        return
+Load_unload_extension.prototype.load_click_event = function(){
+    var list = document.getElementById('models_list')
+    var urn = list.options[list.selectedIndex].value;
+    if(urn != ""){
+        this.load_document(urn)
     }
+}
+Load_unload_extension.prototype.load_document_ev = function () {
+    this.load_document(documentId)
+}
+Load_unload_extension.prototype.load_document = function (documentId) {
     Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess.bind(this), onDocumentLoadFailure);
     document_loaded = true;
     console.log("click works for load");
@@ -87,7 +94,7 @@ function onDocumentLoadSuccess(doc) {
         return;
     }
     viewer.loadDocumentNode(doc, geometries, {keepCurrentModels: true})
-    .then((async (mo2)=>{console.log("model", mo2);
+    .then((async (mo2)=>{
         if(!this.eventext){
             this.eventext = await this.viewer.getExtensionAsync('event_react_extension');
         }
