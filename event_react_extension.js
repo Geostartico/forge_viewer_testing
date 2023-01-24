@@ -13,6 +13,8 @@ Event_listener.prototype.load = function (){
     this.dirEscape = "x";
     this.insert_connectors = false;
     this.change_insertion_point = false;
+    this.hideModels = false;
+    this.hiddenDbids = new Set();
     this.onSelection = this.onSelectionEvent.bind(this);
     this.viewer.addEventListener(Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT, this.onSelection);
     this.onExplode = this.onExplodeEvent.bind(this);
@@ -246,9 +248,25 @@ Event_listener.prototype.onSelectionEvent = async function(event){
                 //console.log(fragmesh)
                 this.selected.push({'fragment': event.selections[ii].fragIdsArray[i], 'model': event.selections[ii].model});
         }
+        if(this.hideModels && event.selections[ii].model.id === this.firstModel.id){
+            console.log(event.selections[ii])
+            for(var db of event.selections[ii].dbIdArray){
+                this.hiddenDbids.add(db);
+            }
+            this.hideSelected();
+            var tree = this.firstModel.getInstanceTree();
+            this.getLeaves([tree.getRootId()], tree, this.firstModel)
+        }
     }
     txt.innerText = 'selezioni: ' + cursel.length;
 //    this.viewer.impl.sceneUpdated(true)
+}
+Event_listener.prototype.hideSelected = function(){
+    var tmp = [];
+    this.hiddenDbids.forEach((e) => {
+        tmp.push(e);
+    });
+    this.viewer.hide(tmp, this.firstModel);
 }
 //listener for the click on the viewer div
 Event_listener.prototype.listen = async function(event){
@@ -527,6 +545,8 @@ Event_listener.prototype.onToolbarCreated = function (toolbar){
     var btn = new Autodesk.Viewing.UI.Button('select_model');
     var btn2 = new Autodesk.Viewing.UI.Button('insert_connectors');
     var btn3 = new Autodesk.Viewing.UI.Button('insertion_point');
+    var btn4 = new Autodesk.Viewing.UI.Button('hide_models');
+    var btn5 = new Autodesk.Viewing.UI.Button('dehide_models');
     var vi = this.viewer;
     btn.onClick = (e) =>{
         this.selectModel = !this.selectModel;
@@ -537,16 +557,28 @@ Event_listener.prototype.onToolbarCreated = function (toolbar){
     btn3.onClick = (e) =>{
         this.change_insertion_point = !this.change_insertion_point;
     }
+    btn4.onClick = (e) =>{
+        this.hideModels = !this.hideModels;
+    }
+    btn5.onClick = (e) =>{
+        this.dehide_models();
+    }
     btn.addClass('select_model');
     btn.setToolTip('toggle model selection');
     btn2.addClass('insert_connectors');
     btn2.setToolTip('toggle connectors insertion');
     btn3.addClass('insertion_point');
     btn3.setToolTip('toggle insertion point change');
+    btn4.addClass('hide_models');
+    btn4.setToolTip('toggle model hiding');
+    btn5.addClass('dehide_models');
+    btn5.setToolTip('dehide models');
     this.subToolbar = new Autodesk.Viewing.UI.ControlGroup('selection_mode');
     this.subToolbar.addControl(btn);
     this.subToolbar.addControl(btn2);
     this.subToolbar.addControl(btn3);
+    this.subToolbar.addControl(btn4);
+    this.subToolbar.addControl(btn5);
     toolbar.addControl(this.subToolbar);
 }
 //checks for collisions and moves the models if they collide with other geometries 
@@ -650,6 +682,9 @@ Event_listener.prototype.getLeaves = function (dbIds, tree, model){
     let leaves = [];
     for(let i = 0; i < dbIds.length; i++){
         let subchildren = (id) =>{
+            if(this.hiddenDbids.has(id)){
+                return;
+            }
             if(tree.getChildCount(id) === 0){
                 leaves.push(id)
             }
@@ -667,4 +702,31 @@ Event_listener.prototype.getLeaves = function (dbIds, tree, model){
         this.mainBox.union(threeBox)
     }
     return leaves;
+}
+Event_listener.prototype.getBox = function(dbid, model){
+    var bx = new Float32Array(6);
+    model.getInstanceTree().getNodeBox(dbid, bx);
+    var threeBox = new THREE.Box3(new THREE.Vector3(bx[0], bx[1], bx[2]), new THREE.Vector3(bx[3],bx[4],bx[5]))
+    return threeBox;
+}
+Event_listener.prototype.dehide_models = function(){
+    var hiddenBoxes = []
+    this.hiddenDbids.forEach((e)=>{
+        hiddenBoxes.push(this.getBox(e, this.firstModel))
+    })
+    for(var md of this.modelObjects){
+        if(md === this.firstModel){
+            continue;
+        }
+        var bx = md.getBoundingBox();
+        for(var hb of hiddenBoxes){
+            if(bx.intersectsBox(hb)){
+                intersects = true
+                window.alert("unable to dehide models, collisions detected")
+                return;
+            }
+        }
+    }
+    this.hiddenDbids = new Set();
+    this.viewer.showAll()
 }
